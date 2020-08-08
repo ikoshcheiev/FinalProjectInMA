@@ -20,7 +20,7 @@ public class HomeAndDecorPage extends AbstractPage {
         Assert.assertEquals(getDriver().findElement(HOME_AND_DECOR_TITLE).getText(), "HOME & DECOR");
     }
 
-    public ElectronicsPage openElectronicsCategory()  {
+    public ElectronicsPage goToElectronicsCategory()  {
         WebElement electronics = getDriver().findElement(ELECTRONICS_CATEGORY);
         scrollToTheElement(getDriver(), electronics).click();
 

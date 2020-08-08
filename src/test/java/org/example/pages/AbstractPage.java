@@ -31,7 +31,7 @@ public abstract class AbstractPage {
         } catch (Exception e){}
     }
 
-    public HomeAndDecorPage openHomeDecorMenu() {
+    public HomeAndDecorPage goToHomeDecorMenu() {
         getDriver().findElement(HOME_AND_DECOR_l1).click();
         return new HomeAndDecorPage();
     }
@@ -76,6 +76,24 @@ public abstract class AbstractPage {
         private String name;
 
         Language(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+    public enum AmountOfListItemsOnThePage {
+        FIVE("5"),
+        TEN("10"),
+        FIFTEEN("15"),
+        TWENTY("20"),
+        TWENTYFIVE("25");
+
+        private String name;
+
+        AmountOfListItemsOnThePage(String name) {
             this.name = name;
         }
 
