@@ -45,4 +45,14 @@ public class FinalProjectLabTests extends BaseTest{
                 .setListResultsToShowOnPage(FIVE)
                 .checkItemsAmountOnPageAndInSelect(FIVE);
     }
+    @Test
+    public void checkSortByTest(){
+        mainPage.setLanguage(AUTO)
+                .goToHomeDecorMenu()
+                .goToElectronicsCategory()
+                .selectShowAsList()
+                .setListResultsToShowOnPage(TWENTYFIVE)
+                .setSortBy("Price")
+                .checkSortedByPrice();
+    }
 }
