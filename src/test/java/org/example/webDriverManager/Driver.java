@@ -59,6 +59,7 @@ public class Driver {
                 break;
             default:
                 throw new IllegalArgumentException(String.format("Browser %s not found", browser));
+
         }
         driverTL.get().manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS); //было 10 сек, поменял на 5
         driverTL.get().manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
