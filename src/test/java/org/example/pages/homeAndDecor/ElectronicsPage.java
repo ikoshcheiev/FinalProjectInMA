@@ -2,7 +2,6 @@ package org.example.pages.homeAndDecor;
 
 import org.example.pages.AbstractPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,10 +11,10 @@ import static org.example.webDriverManager.Driver.getDriver;
 
 public class ElectronicsPage extends AbstractPage {
 
-    private static final By SHOW_AMOUNT_SELECT_ELEMENT = By.cssSelector(".category-products > .toolbar > .pager > .count-container > .limiter > select[title='Results per page']");
-    private static final By ELECTRONICS_PAGE_TITLE = By.xpath("//html[@id='top']/body/div[@class='wrapper']/div[@class='page']//h1[.='Electronics']");
+    private static final By SHOW_AMOUNT_SELECT_ELEMENT = By.cssSelector("select[title='Results per page']");
+    private static final By ELECTRONICS_PAGE_TITLE = By.cssSelector(".page-title");
     private static final By SHOW_AS_LIST_BUTTON = By.linkText("List");
-    private static final By PRODUCTS_ON_PAGE_AMOUNT = By.cssSelector(".amount");
+    private static final By PRODUCTS_ON_PAGE_AMOUNT_TEXT = By.cssSelector(".amount");
     private static final By PAGES_AMOUNT = By.cssSelector(".category-products > .toolbar > .pager > .pages > ol > li");
     private static final By NEXT_PAGE_BTN = By.linkText("NEXT");
     private static final By SORT_OPTION = By.cssSelector(".category-products > .toolbar > .sorter > .sort-by > select[title='Sort By']");
@@ -43,12 +42,27 @@ public class ElectronicsPage extends AbstractPage {
 
     public ElectronicsPage checkItemsCountOnPage() {
         new WebDriverWait(getDriver(), 10)
-                .until(ExpectedConditions.visibilityOf(getDriver().findElement(PRODUCTS_ON_PAGE_AMOUNT)));
+                .until(ExpectedConditions.visibilityOf(getDriver().findElement(PRODUCTS_ON_PAGE_AMOUNT_TEXT)));
         int amountOfProductNames = getDriver().findElements(PRODUCT_NAME_ELEMENT).size();
 
-        Assert.assertTrue(getDriver().findElement(PRODUCTS_ON_PAGE_AMOUNT).getText().contains(String.valueOf(amountOfProductNames)),
+        Assert.assertTrue(getDriver().findElement(PRODUCTS_ON_PAGE_AMOUNT_TEXT).getText().contains(String.valueOf(amountOfProductNames)),
                 "Amount of present items on the page is " + amountOfProductNames + ", but counter shows " +
-                        getDriver().findElement(PRODUCTS_ON_PAGE_AMOUNT).getText());
+                        getDriver().findElement(PRODUCTS_ON_PAGE_AMOUNT_TEXT).getText());
+        return this;
+    }
+
+    public ElectronicsPage checkItemsAmountOnPageAndInSelect(AmountOfListItemsOnThePage valueInSelect) {
+        new WebDriverWait(getDriver(), 10)
+                .until(ExpectedConditions.visibilityOf(getDriver().findElement(PRODUCTS_ON_PAGE_AMOUNT_TEXT)));
+        int amountOfProductNames = getDriver().findElements(PRODUCT_NAME_ELEMENT).size();
+
+        Assert.assertTrue(getDriver().findElement(PRODUCTS_ON_PAGE_AMOUNT_TEXT).getText().contains(String.valueOf(amountOfProductNames)),
+                "Amount of present items on the page is " + amountOfProductNames + ", but counter shows " +
+                        getDriver().findElement(PRODUCTS_ON_PAGE_AMOUNT_TEXT).getText());
+        Assert.assertTrue(amountOfProductNames <= Integer.parseInt(valueInSelect.toString()),
+                "Amount of present items on the page is " + amountOfProductNames +
+                        " is not less/equal to amount chosen in Select dropdown " +
+                        valueInSelect);
         return this;
     }
 }

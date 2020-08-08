@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.example.StringUtils.generateRandomDigit;
+import static org.example.pages.AbstractPage.AmountOfListItemsOnThePage.FIVE;
 import static org.example.pages.AbstractPage.AmountOfListItemsOnThePage.TWENTYFIVE;
 import static org.example.pages.AbstractPage.Language.AUTO;
 
@@ -34,5 +35,14 @@ public class FinalProjectLabTests extends BaseTest{
                 .selectShowAsList()
                 .setListResultsToShowOnPage(TWENTYFIVE)
                 .checkItemsCountOnPage();
+    }
+    @Test
+    public void checkShowSelectTest(){
+        mainPage.setLanguage(AUTO)
+                .goToHomeDecorMenu()
+                .goToElectronicsCategory()
+                .selectShowAsList()
+                .setListResultsToShowOnPage(FIVE)
+                .checkItemsAmountOnPageAndInSelect(FIVE);
     }
 }
