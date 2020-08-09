@@ -2,6 +2,7 @@ package org.example.tests;
 
 import org.example.model.User;
 import org.example.pages.MainPage;
+import org.example.pages.WishListPage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -54,5 +55,32 @@ public class FinalProjectLabTests extends BaseTest{
                 .setListResultsToShowOnPage(TWENTYFIVE)
                 .setSortBy("Price")
                 .checkSortedByPrice();
+    }
+    @Test
+    public void checkPriceFilterTest(){
+        mainPage.setLanguage(AUTO)
+                .goToHomeDecorMenu()
+                .goToElectronicsCategory()
+                .selectShowAsList()
+                .setListResultsToShowOnPage(TWENTYFIVE)
+                .setFilterByPriceRangeFrom(0.00, 999.99)
+                .checkFilteredProductPrices(0.00, 999.99);
+    }
+    @Test
+    public void checkAddToWishList() {
+        String randomProductTitle = mainPage.setLanguage(AUTO)
+                .openRegistrationForm()
+                .openLoginForm()
+                .loginDefaultUser()
+                .goToHomeDecorMenu()
+                .goToElectronicsCategory()
+                .selectShowAsList()
+                .setListResultsToShowOnPage(TWENTYFIVE)
+                //- choose any random item (different for each run)
+                //- click to Add to Wishlist
+                //- verify that MY WISHLIST opens and a name of the chosen item is present
+                .addRandomItemInWishList();
+    new WishListPage()
+            .verifyCorrectItemInWishList(randomProductTitle);
     }
 }

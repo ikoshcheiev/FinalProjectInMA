@@ -12,7 +12,7 @@ import org.openqa.selenium.opera.OperaDriver;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.*;
 
-public class Driver {
+public class Driver  {
     private static final ThreadLocal<WebDriver> driverTL = new ThreadLocal<>();
 
     private Driver() {

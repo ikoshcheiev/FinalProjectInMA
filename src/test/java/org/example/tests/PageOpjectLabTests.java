@@ -57,11 +57,8 @@ public class PageOpjectLabTests extends BaseTest{
     @Test()
     public void loginUserDashboardOpeningTest(){
         mainPage.setLanguage(AUTO)
-                .openRegistrationForm()
-                .registerUser(tl.get())
-                .logOut()
                 .openLoginForm()
-                .loginUser(tl.get())
+                .loginDefaultUser()
                 .checkHelloUserPresence(tl.get());
     }
 }

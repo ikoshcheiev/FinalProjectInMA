@@ -15,6 +15,9 @@ public class LoginPage extends AbstractPage{
     private static final By LOGIN_BUTTON = By.cssSelector("#send2");
     private static final String EXPECTED_TEXT = "LOGIN OR CREATE AN ACCOUNT";
 
+    private static final String EMAIL_FOR_LOGIN  = "koshcheiev.vanya@gmail.com";
+    private static final String PASSWORD_FOR_LOGIN  = "Test_1234";
+
     public LoginPage() {
         Assert.assertTrue(getDriver().findElement(LOGIN_AND_REGISTRATION_TITLE).getText().equalsIgnoreCase(EXPECTED_TEXT),
                 "Appeared title is " + getDriver().findElement(LOGIN_AND_REGISTRATION_TITLE).getText() +
@@ -29,6 +32,12 @@ public class LoginPage extends AbstractPage{
     public MyDashboardPage loginUser(User user) {
         getDriver().findElement(EMAIL_FIELD).sendKeys(user.getEmail());
         getDriver().findElement(PASSWORD_FIELD).sendKeys(user.getPassword());
+        getDriver().findElement(LOGIN_BUTTON).click();
+        return new MyDashboardPage();
+    }
+    public MyDashboardPage loginDefaultUser() {
+        getDriver().findElement(EMAIL_FIELD).sendKeys(EMAIL_FOR_LOGIN);
+        getDriver().findElement(PASSWORD_FIELD).sendKeys(PASSWORD_FOR_LOGIN);
         getDriver().findElement(LOGIN_BUTTON).click();
         return new MyDashboardPage();
     }

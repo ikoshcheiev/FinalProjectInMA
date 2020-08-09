@@ -2,6 +2,7 @@ package org.example.pages.homeAndDecor;
 
 import org.example.pages.AbstractPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -10,6 +11,7 @@ import org.testng.Assert;
 
 import java.util.List;
 
+import static org.example.WebDriverUtils.scrollToTheElement;
 import static org.example.webDriverManager.Driver.getDriver;
 
 public class ElectronicsPage extends AbstractPage {
@@ -24,12 +26,19 @@ public class ElectronicsPage extends AbstractPage {
     private static final By PRICE_FILTER = By.cssSelector(".sidebar dd ol li .price");
     //Check if filter was applied - need to check with contains or extract into list of doubles
     // private static final By PRICE_FILTER_SELECTED = By.cssSelector(".sidebar .currently ol li .value");
-    private static final By PRICE_OF_ELEMENTS = By.cssSelector(".regular-price price, .price-to price");
+    private static final By PRICE_OF_ELEMENTS = By.cssSelector(".regular-price .price, .price-to .price");
     private static final By PRODUCT_TITLE_IN_LIST = By.cssSelector("ol#products-list > li .product-name");
     private static final By PRODUCT_NAME_ELEMENT = By.cssSelector(".product-name");
 
+    private static final By PRODUCT_IN_LIST = By.cssSelector("ol#products-list > li");
+    private static final By PRODUCT_NAME_ELEMENT_FROM_PRODUCT_IN_LIST = By.cssSelector(".product-name");
+    private static final By ADD_TO_WISHLIST_LINK = By.cssSelector(".link-wishlist");
+    private static final String EXPECTED_TEXT = "ELECTRONICS";
+
     public ElectronicsPage() {
-        Assert.assertEquals(getDriver().findElement(ELECTRONICS_PAGE_TITLE).getText(), "ELECTRONICS");
+        Assert.assertTrue(getDriver().findElement(ELECTRONICS_PAGE_TITLE).getText().equalsIgnoreCase(EXPECTED_TEXT),
+                "Appeared title is " + getDriver().findElement(ELECTRONICS_PAGE_TITLE).getText() +
+                        ", when expected title is " + EXPECTED_TEXT);
     }
 
     public ElectronicsPage selectShowAsList() {
@@ -86,5 +95,44 @@ public class ElectronicsPage extends AbstractPage {
             Assert.assertTrue(previous <= next, "Previous product price is not less/equal to next one:" + next);
         }
         return this;
+    }
+
+    public ElectronicsPage setFilterByPriceRangeFrom(Double fromPrice, Double toPrice) {
+        List<WebElement> priceRange = getDriver().findElements(PRICE_FILTER);
+        double priceMin = 0.0;
+        double priceMax = 0.0;
+        for(int i = 0; i < priceRange.size(); i++){
+            //Works for currency symbol before price
+            priceMin = Double.parseDouble(priceRange.get(i).getText().substring(1).trim());
+            if(priceMin == fromPrice && i+1 < priceRange.size()){
+                priceMax = Double.parseDouble(priceRange.get(i+1).getText().substring(1).trim());
+                break;
+            }
+
+        }
+        Assert.assertTrue(priceMin == fromPrice, "Minimum price range value isn't found in filters");
+        Assert.assertTrue(priceMax == toPrice, "Maximum price range value isn't found in filters");
+        getDriver().findElement(PRICE_FILTER).click();
+        return this;
+    }
+
+    public ElectronicsPage checkFilteredProductPrices(double fromPrice, double toPrice) {
+        List<WebElement> priceOfElements = getDriver().findElements(PRICE_OF_ELEMENTS);
+        for (int i = 0; i < priceOfElements.size(); i=i+2) {
+            //Works for currency symbol before price
+            Assert.assertTrue(Double.parseDouble(priceOfElements.get(i).getText().substring(1).trim()) >= fromPrice, "Price of the product is not in the selected filter range");
+            Assert.assertTrue(Double.parseDouble(priceOfElements.get(i + 1).getText().substring(1).trim()) <= toPrice, "Price of the product is not in the selected filter range");
+        }
+        return this;
+    }
+    public String addRandomItemInWishList() {
+        List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10)
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(PRODUCT_IN_LIST));
+        WebElement randomProductItem = listOfElements.get((int)(Math.random()*(listOfElements.size()-1)));
+        String productItemName = randomProductItem.findElement(PRODUCT_NAME_ELEMENT_FROM_PRODUCT_IN_LIST).getText();
+
+        scrollToTheElement(getDriver(), randomProductItem);
+        randomProductItem.findElement(ADD_TO_WISHLIST_LINK).click();
+        return productItemName;
     }
 }
