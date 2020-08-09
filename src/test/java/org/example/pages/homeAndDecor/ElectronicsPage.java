@@ -62,7 +62,6 @@ public class ElectronicsPage extends AbstractPage {
     public ElectronicsPage setListResultsToShowOnPage(AmountOfListItemsOnThePage amount) {
         Select s = new Select(getDriver().findElement(SHOW_LIST_AMOUNT_SELECT_ELEMENT));
         s.selectByVisibleText(amount.toString());
-        new WebDriverWait(getDriver(), 5).until(ExpectedConditions.presenceOfElementLocated(SHOW_LIST_AMOUNT_SELECT_ELEMENT));
         return this;
     }
 
