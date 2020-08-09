@@ -1,7 +1,5 @@
 package org.example.webDriverManager;
 
-import java.util.concurrent.TimeUnit;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,9 +8,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 
+import java.util.concurrent.TimeUnit;
+
 import static io.github.bonigarcia.wdm.WebDriverManager.*;
 
-public class Driver  {
+public class Driver {
     private static final ThreadLocal<WebDriver> driverTL = new ThreadLocal<>();
 
     private Driver() {
@@ -61,8 +61,8 @@ public class Driver  {
                 throw new IllegalArgumentException(String.format("Browser %s not found", browser));
 
         }
-        driverTL.get().manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
-        driverTL.get().manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
-        driverTL.get().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driverTL.get().manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        driverTL.get().manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
+        driverTL.get().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 }

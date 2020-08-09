@@ -1,6 +1,5 @@
 package org.example.pages;
 
-import org.example.pages.homeAndDecor.ElectronicsPage;
 import org.example.pages.homeAndDecor.HomeAndDecorPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,6 +12,13 @@ import org.testng.Assert;
 import static org.example.webDriverManager.Driver.getDriver;
 
 public abstract class AbstractPage {
+    protected static final By SHOW_GRID_AMOUNT_SELECT_ELEMENT = By.cssSelector("select[title='Results per page']");
+    protected static final By SHOW_LIST_AMOUNT_SELECT_ELEMENT = By.cssSelector("select[title='Results per page']");
+    protected static final String DEFAULT_EMAIL_FOR_LOGIN = "koshcheiev.vanya@gmail.com";
+    protected static final String DEFAULT_PASSWORD_FOR_LOGIN = "Test_1234";
+    protected static final String DEFAULT_LOGGEDIN_FIRSTNAME = "Ivan";
+    protected static final String DEFAULT_LOGGEDIN_LASTNAME = "Test";
+
     private static final By LANGUAGE = By.id("select-language");
     private static final By HOME_AND_DECOR_l1 = By.linkText("HOME & DECOR");
     private static final By SALE_l1 = By.linkText("SALE");
@@ -23,14 +29,15 @@ public abstract class AbstractPage {
     private static final By ACCOUNT_MENU_ITEM_CART = By.cssSelector("a[title='My Cart']");
     private static final By ACCOUNT_MENU_ITEM_WISHLIST = By.linkText("My Wishlist");
     private static final By ACCOUNT_MENU_ITEM_ACCOUNT = By.linkText("My Account");
-    private static final By ACCOUNT_MENU_ITEM_LOGIN  = By.linkText("Log In");
+    private static final By ACCOUNT_MENU_ITEM_LOGIN = By.linkText("Log In");
 
     public AbstractPage() {
         try {
             WebDriverWait wait = new WebDriverWait(getDriver(), 5);
             WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.id("close-fixedban")));
             ((JavascriptExecutor) getDriver()).executeScript("document.getElementById('close-fixedban').click()");
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     public HomeAndDecorPage goToHomeDecorPageViaMenu() {
@@ -49,9 +56,9 @@ public abstract class AbstractPage {
         return new RegistrationPage();
     }
 
-    public LoginPage openLoginForm() {
+    public LoginPage goToLoginForm() {
         getDriver().findElement(ACCOUNT_MENU).click();
-        Assert.assertTrue(getDriver().findElements(ACCOUNT_MENU_ITEM_LOGIN).size()>0,
+        Assert.assertTrue(getDriver().findElements(ACCOUNT_MENU_ITEM_LOGIN).size() > 0,
                 "Can't find Login button as already logged in");
         getDriver().findElement(ACCOUNT_MENU_ITEM_LOGIN).click();
         return new LoginPage();
@@ -59,7 +66,7 @@ public abstract class AbstractPage {
 
     public AbstractPage logOut() {
         getDriver().findElement(ACCOUNT_MENU).click();
-        Assert.assertTrue(getDriver().findElements(ACCOUNT_MENU_ITEM_LOGOUT).size()>0,
+        Assert.assertTrue(getDriver().findElements(ACCOUNT_MENU_ITEM_LOGOUT).size() > 0,
                 "Can't find Logout button as not logged in");
         getDriver().findElement(ACCOUNT_MENU_ITEM_LOGOUT).click();
         return this;

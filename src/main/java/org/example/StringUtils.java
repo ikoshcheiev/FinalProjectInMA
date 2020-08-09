@@ -17,4 +17,10 @@ public class StringUtils {
 
         return generatedString;
     }
+
+    public static double getPriceAsDouble(String priceLine){
+        String price = priceLine;
+        if(priceLine.contains(","))price = priceLine.replace(",","");
+        return Double.parseDouble(price.substring(1).trim());
+    }
 }

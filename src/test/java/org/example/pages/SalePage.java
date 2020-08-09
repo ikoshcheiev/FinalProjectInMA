@@ -13,7 +13,6 @@ public class SalePage extends AbstractPage {
     private static final By SALE_PAGE_TITLE = By.cssSelector(".category-title");
     private static final String EXPECTED_TEXT = "SALE";
     private static final By VIEW_AS_GRID_VIEW = By.cssSelector(".grid");
-    private static final By SHOW_GRID_AMOUNT_SELECT_ELEMENT = By.cssSelector("select[title='Results per page']");
     private static final By SALE_PRICE_OF_ELEMENTS = By.cssSelector("[id^='product-price']");
     private static final By OLD_PRICE_OF_ELEMENTS = By.cssSelector("[id^='old-price']");
     private static final By PRICEBOX_OF_ELEMENTS = By.cssSelector(".product-info .price-box");
@@ -42,7 +41,7 @@ public class SalePage extends AbstractPage {
         for (int i = 0; i < priceBoxOfElements.size(); i++) {
             //Works for currency symbol before price
             Assert.assertTrue(Double.parseDouble(oldPriceOfElements.get(i).getText().substring(1).trim()) >
-                    Double.parseDouble(salePriceOfElements.get(i).getText().substring(1).trim()),
+                            Double.parseDouble(salePriceOfElements.get(i).getText().substring(1).trim()),
                     "Sale price is not less than the old one");
         }
         return this;

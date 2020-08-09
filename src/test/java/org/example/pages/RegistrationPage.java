@@ -48,17 +48,17 @@ public class RegistrationPage extends AbstractPage {
     }
 
     public RegistrationPage checkThatAllFieldsPresentForRegistration() {
-        Assert.assertTrue(getDriver().findElements(FIRST_NAME_FIELD).size() > 0,"Element " + FIRST_NAME_FIELD.toString() + "is absent");
-        Assert.assertTrue(getDriver().findElements(LAST_NAME_FIELD).size() > 0,"Element " + LAST_NAME_FIELD.toString() + "is absent");
-        Assert.assertTrue(getDriver().findElements(EMAIL_FIELD).size() > 0,"Element " + EMAIL_FIELD.toString() + "is absent");
-        Assert.assertTrue(getDriver().findElements(PASSWORD_FIELD).size() > 0,"Element " + PASSWORD_FIELD.toString() + "is absent");
-        Assert.assertTrue(getDriver().findElements(PASSWORD_CONFIRM_FIELD).size() > 0,"Element " + PASSWORD_CONFIRM_FIELD.toString() + "is absent");
-        Assert.assertTrue(getDriver().findElements(SUBSCRIPTION_CHECKBOX).size() > 0,"Element " + SUBSCRIPTION_CHECKBOX.toString() + "is absent");
-        Assert.assertTrue(getDriver().findElements(REGISTER_BUTTON).size() > 0,"Element " + REGISTER_BUTTON.toString() + "is absent");
+        Assert.assertTrue(getDriver().findElements(FIRST_NAME_FIELD).size() > 0, "Element " + FIRST_NAME_FIELD.toString() + "is absent");
+        Assert.assertTrue(getDriver().findElements(LAST_NAME_FIELD).size() > 0, "Element " + LAST_NAME_FIELD.toString() + "is absent");
+        Assert.assertTrue(getDriver().findElements(EMAIL_FIELD).size() > 0, "Element " + EMAIL_FIELD.toString() + "is absent");
+        Assert.assertTrue(getDriver().findElements(PASSWORD_FIELD).size() > 0, "Element " + PASSWORD_FIELD.toString() + "is absent");
+        Assert.assertTrue(getDriver().findElements(PASSWORD_CONFIRM_FIELD).size() > 0, "Element " + PASSWORD_CONFIRM_FIELD.toString() + "is absent");
+        Assert.assertTrue(getDriver().findElements(SUBSCRIPTION_CHECKBOX).size() > 0, "Element " + SUBSCRIPTION_CHECKBOX.toString() + "is absent");
+        Assert.assertTrue(getDriver().findElements(REGISTER_BUTTON).size() > 0, "Element " + REGISTER_BUTTON.toString() + "is absent");
         return this;
     }
 
-    public LoginPage returnToLoginPageByBackButton(){
+    public LoginPage returnToLoginPageByBackButton() {
         getDriver().findElement(BACK_BUTTON).click();
         return new LoginPage();
     }
@@ -72,7 +72,7 @@ public class RegistrationPage extends AbstractPage {
         //Check that at least 1 error present and equal to expected
         List<WebElement> elements = new ArrayList<>(getDriver().findElements(By.cssSelector(".form-list .input-box .validation-advice")));
         Assert.assertTrue(elements.size() > 0);
-        for (WebElement e:elements) {
+        for (WebElement e : elements) {
             Assert.assertTrue(e.getText().equals("This is a required field."),
                     "Appeared text is" + e.getText() + " but expected to receive 'This is a required field.'");
         }

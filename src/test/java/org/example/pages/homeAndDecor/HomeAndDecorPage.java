@@ -2,9 +2,7 @@ package org.example.pages.homeAndDecor;
 
 import org.example.pages.AbstractPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 import static org.example.WebDriverUtils.scrollToTheElement;
@@ -20,7 +18,7 @@ public class HomeAndDecorPage extends AbstractPage {
         Assert.assertEquals(getDriver().findElement(HOME_AND_DECOR_TITLE).getText(), "HOME & DECOR");
     }
 
-    public ElectronicsPage goToElectronicsPage()  {
+    public ElectronicsPage goToElectronicsPageViaGrid() {
         WebElement electronics = getDriver().findElement(ELECTRONICS_CATEGORY);
         scrollToTheElement(getDriver(), electronics).click();
 

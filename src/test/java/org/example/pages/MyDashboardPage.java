@@ -26,9 +26,18 @@ public class MyDashboardPage extends AbstractPage {
     public MyDashboardPage checkHelloUserPresence(User user) {
         //Hello, 123 123!
         Assert.assertTrue(getDriver().findElement(MY_DASHBOARD_HELLO_ELEMENT).getText()
-                .equalsIgnoreCase(String.format("Hello, %s %s!", user.getFirstName(), user.getLastName())),
+                        .equalsIgnoreCase(String.format("Hello, %s %s!",user.getFirstName(), user.getLastName())),
                 "Appeared text is" + getDriver().findElement(MY_DASHBOARD_HELLO_ELEMENT).getText() +
                         ", but expected is " + String.format("Hello, %s %s", user.getFirstName(), user.getLastName()));
+        return this;
+    }
+
+    public MyDashboardPage checkDefaultHelloUserPresence() {
+        //Hello, 123 123!
+        Assert.assertTrue(getDriver().findElement(MY_DASHBOARD_HELLO_ELEMENT).getText()
+                        .equalsIgnoreCase(String.format("Hello, %s %s!", DEFAULT_LOGGEDIN_FIRSTNAME, DEFAULT_LOGGEDIN_LASTNAME)),
+                "Appeared text is" + getDriver().findElement(MY_DASHBOARD_HELLO_ELEMENT).getText() +
+                        ", but expected is " + String.format("Hello, %s %s", DEFAULT_LOGGEDIN_FIRSTNAME, DEFAULT_LOGGEDIN_LASTNAME));
         return this;
     }
 }

@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import static org.example.StringUtils.generateRandomDigit;
 import static org.example.pages.AbstractPage.Language.AUTO;
 
-public class PageOpjectLabTests extends BaseTest{
+public class PageOpjectLabTests extends BaseTest {
 
     MainPage mainPage;
     ThreadLocal<User> tl = new ThreadLocal<>();
@@ -25,40 +25,44 @@ public class PageOpjectLabTests extends BaseTest{
                 .confirmPassword("password".concat(random))
                 .build());
     }
+
     @Test
-    public void registrationFieldsPresenceTest(){
+    public void registrationFieldsPresenceTest() {
         mainPage.setLanguage(AUTO)
                 .openRegistrationForm()
                 .checkThatAllFieldsPresentForRegistration();
     }
 
     @Test
-    public void registrationFormBackButtonTest(){
+    public void registrationFormBackButtonTest() {
         mainPage.setLanguage(AUTO)
                 .openRegistrationForm()
                 .returnToLoginPageByBackButton()
                 .isOnThisPage();
     }
+
     @Test
-    public void registrationEmptyFieldErrorsTest(){
+    public void registrationEmptyFieldErrorsTest() {
         mainPage.setLanguage(AUTO)
                 .openRegistrationForm()
                 .submitEmptyRegistrationForm()
                 .checkThatErrorAboutEmptyFieldsAppear();
     }
+
     @Test
-    public void registrationUserDashboardOpeningTest(){
+    public void registrationUserDashboardOpeningTest() {
         mainPage.setLanguage(AUTO)
                 .openRegistrationForm()
                 .registerUser(tl.get())
                 .checkHelloUserPresence(tl.get())
                 .isOnThisPage();
     }
+
     @Test()
-    public void loginUserDashboardOpeningTest(){
+    public void loginUserDashboardOpeningTest() {
         mainPage.setLanguage(AUTO)
-                .openLoginForm()
+                .goToLoginForm()
                 .loginDefaultUser()
-                .checkHelloUserPresence(tl.get());
+                .checkDefaultHelloUserPresence();
     }
 }

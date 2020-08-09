@@ -1,6 +1,8 @@
 package org.example.tests;
 
+import org.example.model.Product;
 import org.example.model.User;
+import org.example.pages.CartPage;
 import org.example.pages.MainPage;
 import org.example.pages.WishListPage;
 import org.testng.annotations.BeforeMethod;
@@ -12,16 +14,16 @@ import static org.example.pages.AbstractPage.AmountOfListItemsOnThePage.FIVE;
 import static org.example.pages.AbstractPage.AmountOfListItemsOnThePage.TWENTYFIVE;
 import static org.example.pages.AbstractPage.Language.AUTO;
 
-public class FinalProjectLabTests extends BaseTest{
+public class FinalProjectLabTests extends BaseTest {
 
     MainPage mainPage;
-    ThreadLocal<User> tl = new ThreadLocal<>();
+    ThreadLocal<User> tlUser = new ThreadLocal<>();
 
     @BeforeMethod(alwaysRun = true)
     public void mainPage() {
         mainPage = new MainPage();
         String random = generateRandomDigit(4);
-        tl.set(User.builder()
+        tlUser.set(User.builder()
                 .firstName("TestFirst".concat(random))
                 .lastName("TestLast".concat(random))
                 .email(random.concat("Email@test.com"))
@@ -29,57 +31,62 @@ public class FinalProjectLabTests extends BaseTest{
                 .confirmPassword("password".concat(random))
                 .build());
     }
+
     @Test
-    public void checkItemsCounterTest(){
+    public void checkItemsCounterTest() {
         mainPage.setLanguage(AUTO)
                 .goToHomeDecorPageViaMenu()
-                .goToElectronicsPage()
+                .goToElectronicsPageViaGrid()
                 .selectShowAsListView()
                 .setListResultsToShowOnPage(TWENTYFIVE)
                 .checkItemsCountOnPage();
     }
+
     @Test
-    public void checkShowSelectTest(){
+    public void checkShowSelectTest() {
         mainPage.setLanguage(AUTO)
                 .goToHomeDecorPageViaMenu()
-                .goToElectronicsPage()
+                .goToElectronicsPageViaGrid()
                 .selectShowAsListView()
                 .setListResultsToShowOnPage(FIVE)
                 .checkItemsAmountOnPageAndInSelect(FIVE);
     }
+
     @Test
-    public void checkSortByTest(){
+    public void checkSortByTest() {
         mainPage.setLanguage(AUTO)
                 .goToHomeDecorPageViaMenu()
-                .goToElectronicsPage()
+                .goToElectronicsPageViaGrid()
                 .selectShowAsListView()
                 .setListResultsToShowOnPage(TWENTYFIVE)
                 .setSortBy("Price")
                 .checkSortedByPrice();
     }
+
     @Test
-    public void checkPriceFilterTest(){
+    public void checkPriceFilterTest() {
         mainPage.setLanguage(AUTO)
                 .goToHomeDecorPageViaMenu()
-                .goToElectronicsPage()
+                .goToElectronicsPageViaGrid()
                 .selectShowAsListView()
                 .setListResultsToShowOnPage(TWENTYFIVE)
                 .setFilterByPriceRangeFrom(0.00, 999.99)
                 .checkFilteredProductPrices(0.00, 999.99);
     }
+
     @Test
     public void checkAddToWishListTest() {
         String randomProductTitle = mainPage.setLanguage(AUTO)
                 .openRegistrationForm()
-                .openLoginForm()
+                .goToLoginForm()
                 .loginDefaultUser()
                 .goToHomeDecorPageViaMenu()
-                .goToElectronicsPage()
+                .goToElectronicsPageViaGrid()
                 .selectShowAsListView()
                 .setListResultsToShowOnPage(TWENTYFIVE)
                 .addRandomItemInWishList();
-    new WishListPage()
-            .verifyCorrectItemInWishList(randomProductTitle);
+        new WishListPage()
+                .verifyCorrectItemInWishList(randomProductTitle);
     }
 
     @Test
@@ -89,5 +96,23 @@ public class FinalProjectLabTests extends BaseTest{
                 .selectShowAsGridView()
                 .setGridResultsToShowOnPage(THIRTYSIX)
                 .verifyOldPriceIsHigher();
+    }
+
+    @Test
+    public void checkShoppingCart() {
+        ThreadLocal<Product> tlProduct = new ThreadLocal<>();
+        tlProduct.set(
+                mainPage.setLanguage(AUTO)
+                        .goToLoginForm()
+                        .loginDefaultUser()
+                        .goToHomeDecorPageViaMenu()
+                        .goToElectronicsPageViaGrid()
+                        .selectShowAsGridView()
+                        .setGridResultsToShowOnPage(THIRTYSIX)
+                        .addRandomItemToCart()
+        );
+        new CartPage()
+                .verifyCorrectItemInCart(tlProduct.get())
+                .verifyGrandTotal(tlProduct.get());
     }
 }
