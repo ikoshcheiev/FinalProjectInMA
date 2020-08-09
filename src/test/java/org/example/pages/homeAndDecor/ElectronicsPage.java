@@ -2,7 +2,6 @@ package org.example.pages.homeAndDecor;
 
 import org.example.pages.AbstractPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -16,7 +15,7 @@ import static org.example.webDriverManager.Driver.getDriver;
 
 public class ElectronicsPage extends AbstractPage {
 
-    private static final By SHOW_AMOUNT_SELECT_ELEMENT = By.cssSelector("select[title='Results per page']");
+    private static final By SHOW_LIST_AMOUNT_SELECT_ELEMENT = By.cssSelector("select[title='Results per page']");
     private static final By ELECTRONICS_PAGE_TITLE = By.cssSelector(".page-title");
     private static final By SHOW_AS_LIST_BUTTON = By.linkText("List");
     private static final By PRODUCTS_ON_PAGE_AMOUNT_TEXT = By.cssSelector(".amount");
@@ -41,14 +40,14 @@ public class ElectronicsPage extends AbstractPage {
                         ", when expected title is " + EXPECTED_TEXT);
     }
 
-    public ElectronicsPage selectShowAsList() {
+    public ElectronicsPage selectShowAsListView() {
         getDriver().findElement(SHOW_AS_LIST_BUTTON).click();
         return this;
     }
 
-    public ElectronicsPage setListResultsToShowOnPage(AmountOfListItemsOnThePage i) {
-        Select s = new Select(getDriver().findElement(SHOW_AMOUNT_SELECT_ELEMENT));
-        s.selectByVisibleText(i.toString());
+    public ElectronicsPage setListResultsToShowOnPage(AmountOfListItemsOnThePage amount) {
+        Select s = new Select(getDriver().findElement(SHOW_LIST_AMOUNT_SELECT_ELEMENT));
+        s.selectByVisibleText(amount.toString());
         return this;
     }
 

@@ -13,14 +13,14 @@ import static org.example.webDriverManager.Driver.getDriver;
 public class HomeAndDecorPage extends AbstractPage {
 
     private static final By SUBSCRIBE_BUTTON = By.cssSelector(".#newsletter-validate-detail button");
-    private static final By HOME_AND_DECOR_TITLE = By.cssSelector(".category-title h1");
+    private static final By HOME_AND_DECOR_TITLE = By.cssSelector(".category-title");
     private static final By ELECTRONICS_CATEGORY = By.cssSelector("img[alt='Electronics']");
 
     public HomeAndDecorPage() {
         Assert.assertEquals(getDriver().findElement(HOME_AND_DECOR_TITLE).getText(), "HOME & DECOR");
     }
 
-    public ElectronicsPage goToElectronicsCategory()  {
+    public ElectronicsPage goToElectronicsPage()  {
         WebElement electronics = getDriver().findElement(ELECTRONICS_CATEGORY);
         scrollToTheElement(getDriver(), electronics).click();
 

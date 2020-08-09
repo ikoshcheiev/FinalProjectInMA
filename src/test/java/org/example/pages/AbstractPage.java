@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import org.example.pages.homeAndDecor.ElectronicsPage;
 import org.example.pages.homeAndDecor.HomeAndDecorPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -14,6 +15,7 @@ import static org.example.webDriverManager.Driver.getDriver;
 public abstract class AbstractPage {
     private static final By LANGUAGE = By.id("select-language");
     private static final By HOME_AND_DECOR_l1 = By.linkText("HOME & DECOR");
+    private static final By SALE_l1 = By.linkText("SALE");
     private static final By HOME_AND_DECOR_l1_ELECTRONICS_l2 = By.linkText("HOME & DECOR");
     private static final By ACCOUNT_MENU = By.cssSelector(".skip-account");
     private static final By ACCOUNT_MENU_ITEM_REGISTER = By.cssSelector("a[title='Register']");
@@ -31,9 +33,14 @@ public abstract class AbstractPage {
         } catch (Exception e){}
     }
 
-    public HomeAndDecorPage goToHomeDecorMenu() {
+    public HomeAndDecorPage goToHomeDecorPageViaMenu() {
         getDriver().findElement(HOME_AND_DECOR_l1).click();
         return new HomeAndDecorPage();
+    }
+
+    public SalePage goToSalePageViaMenu() {
+        getDriver().findElement(SALE_l1).click();
+        return new SalePage();
     }
 
     public RegistrationPage openRegistrationForm() {
@@ -84,6 +91,7 @@ public abstract class AbstractPage {
             return name;
         }
     }
+
     public enum AmountOfListItemsOnThePage {
         FIVE("5"),
         TEN("10"),
@@ -91,15 +99,32 @@ public abstract class AbstractPage {
         TWENTY("20"),
         TWENTYFIVE("25");
 
-        private String name;
+        private String amount;
 
-        AmountOfListItemsOnThePage(String name) {
-            this.name = name;
+        AmountOfListItemsOnThePage(String amount) {
+            this.amount = amount;
         }
 
         @Override
         public String toString() {
-            return name;
+            return amount;
+        }
+    }
+
+    public enum AmountOfGridItemsOnThePage {
+        TWELVE("12"),
+        TWENTYFOUR("24"),
+        THIRTYSIX("36");
+
+        private String amount;
+
+        AmountOfGridItemsOnThePage(String amount) {
+            this.amount = amount;
+        }
+
+        @Override
+        public String toString() {
+            return amount;
         }
     }
 

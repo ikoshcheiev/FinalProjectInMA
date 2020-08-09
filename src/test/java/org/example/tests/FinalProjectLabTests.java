@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.example.StringUtils.generateRandomDigit;
+import static org.example.pages.AbstractPage.AmountOfGridItemsOnThePage.THIRTYSIX;
 import static org.example.pages.AbstractPage.AmountOfListItemsOnThePage.FIVE;
 import static org.example.pages.AbstractPage.AmountOfListItemsOnThePage.TWENTYFIVE;
 import static org.example.pages.AbstractPage.Language.AUTO;
@@ -31,27 +32,27 @@ public class FinalProjectLabTests extends BaseTest{
     @Test
     public void checkItemsCounterTest(){
         mainPage.setLanguage(AUTO)
-                .goToHomeDecorMenu()
-                .goToElectronicsCategory()
-                .selectShowAsList()
+                .goToHomeDecorPageViaMenu()
+                .goToElectronicsPage()
+                .selectShowAsListView()
                 .setListResultsToShowOnPage(TWENTYFIVE)
                 .checkItemsCountOnPage();
     }
     @Test
     public void checkShowSelectTest(){
         mainPage.setLanguage(AUTO)
-                .goToHomeDecorMenu()
-                .goToElectronicsCategory()
-                .selectShowAsList()
+                .goToHomeDecorPageViaMenu()
+                .goToElectronicsPage()
+                .selectShowAsListView()
                 .setListResultsToShowOnPage(FIVE)
                 .checkItemsAmountOnPageAndInSelect(FIVE);
     }
     @Test
     public void checkSortByTest(){
         mainPage.setLanguage(AUTO)
-                .goToHomeDecorMenu()
-                .goToElectronicsCategory()
-                .selectShowAsList()
+                .goToHomeDecorPageViaMenu()
+                .goToElectronicsPage()
+                .selectShowAsListView()
                 .setListResultsToShowOnPage(TWENTYFIVE)
                 .setSortBy("Price")
                 .checkSortedByPrice();
@@ -59,28 +60,34 @@ public class FinalProjectLabTests extends BaseTest{
     @Test
     public void checkPriceFilterTest(){
         mainPage.setLanguage(AUTO)
-                .goToHomeDecorMenu()
-                .goToElectronicsCategory()
-                .selectShowAsList()
+                .goToHomeDecorPageViaMenu()
+                .goToElectronicsPage()
+                .selectShowAsListView()
                 .setListResultsToShowOnPage(TWENTYFIVE)
                 .setFilterByPriceRangeFrom(0.00, 999.99)
                 .checkFilteredProductPrices(0.00, 999.99);
     }
     @Test
-    public void checkAddToWishList() {
+    public void checkAddToWishListTest() {
         String randomProductTitle = mainPage.setLanguage(AUTO)
                 .openRegistrationForm()
                 .openLoginForm()
                 .loginDefaultUser()
-                .goToHomeDecorMenu()
-                .goToElectronicsCategory()
-                .selectShowAsList()
+                .goToHomeDecorPageViaMenu()
+                .goToElectronicsPage()
+                .selectShowAsListView()
                 .setListResultsToShowOnPage(TWENTYFIVE)
-                //- choose any random item (different for each run)
-                //- click to Add to Wishlist
-                //- verify that MY WISHLIST opens and a name of the chosen item is present
                 .addRandomItemInWishList();
     new WishListPage()
             .verifyCorrectItemInWishList(randomProductTitle);
+    }
+
+    @Test
+    public void checkSalePricesTest() {
+        mainPage.setLanguage(AUTO)
+                .goToSalePageViaMenu()
+                .selectShowAsGridView()
+                .setGridResultsToShowOnPage(THIRTYSIX)
+                .verifyOldPriceIsHigher();
     }
 }
