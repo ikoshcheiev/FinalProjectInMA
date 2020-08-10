@@ -84,7 +84,7 @@ public class FinalProjectLabTests extends BaseTest {
                 .goToElectronicsPageViaGrid()
                 .selectShowAsListView()
                 .setListResultsToShowOnPage(TWENTYFIVE)
-                .addRandomItemInWishList();
+                .addRandomItemFromListViewToWishList();
         new WishListPage()
                 .verifyCorrectItemInWishList(randomProductTitle);
     }

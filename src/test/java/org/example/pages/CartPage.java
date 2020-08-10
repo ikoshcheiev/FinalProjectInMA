@@ -33,12 +33,20 @@ public class CartPage extends AbstractPage {
     public CartPage verifyCorrectItemInCart(Product product) {
         List<WebElement> listOfCartProducts = new ArrayList<>(new WebDriverWait(getDriver(), 10)
                 .until(ExpectedConditions.presenceOfAllElementsLocatedBy(PRODUCTS_IN_CART)));
-        int recentlyAddedProductIndex = listOfCartProducts.size() - 1;
+        //int recentlyAddedProductIndex = listOfCartProducts.size() -1;
+        int recentlyAddedProductIndex = 0;
+        for (int i = 0; i < listOfCartProducts.size(); i++) {
+            if(listOfCartProducts.get(i).findElement(PRODUCT_NAME).getText().equals(product.getName())){
+                recentlyAddedProductIndex = i;
+                break;
+            }
+        }
         if (product.getRegularPrice() != null)
             Assert.assertEquals(
                     product.getRegularPrice(),
                     getPriceAsDouble(listOfCartProducts.get(recentlyAddedProductIndex).findElement(PRODUCT_ONE_PRICE).getText()),
                     "Cart price of product doesn't equal to Regular product price on PLP");
+        else
         if (product.getSalePrice() != null)
             Assert.assertEquals(
                     product.getSalePrice(),

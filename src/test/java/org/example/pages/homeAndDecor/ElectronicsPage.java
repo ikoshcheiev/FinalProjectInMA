@@ -14,6 +14,7 @@ import org.testng.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.example.RandomUtils.getRandomElement;
 import static org.example.StringUtils.getPriceAsDouble;
 import static org.example.WebDriverUtils.scrollToTheElement;
 import static org.example.webDriverManager.Driver.getDriver;
@@ -21,15 +22,17 @@ import static org.example.webDriverManager.Driver.getDriver;
 public class ElectronicsPage extends AbstractPage {
 
     private static final By ELECTRONICS_PAGE_TITLE = By.cssSelector(".page-title");
-    private static final By SHOW_AS_LIST_BUTTON = By.cssSelector(".list");
-    private static final By VIEW_AS_GRID_VIEW = By.cssSelector(".grid");
     private static final By PRODUCTS_ON_PAGE_AMOUNT_TEXT = By.cssSelector(".amount");
     private static final By SORT_OPTION = By.cssSelector("select[title='Sort By']");
     private static final By PRICE_FILTER = By.cssSelector(".sidebar dd ol li .price");
     private static final By PRICE_OF_ELEMENTS = By.cssSelector(".regular-price .price, .price-to .price");
 
-    private static final By PRODUCTS_IN_GRID = By.cssSelector(".item.last");
-    private static final By PRODUCT_NAME_ELEMENT_FROM_PRODUCT_IN_LIST = By.cssSelector(".product-name");
+    private static final By VIEW_AS_GRID_VIEW = By.cssSelector(".grid");
+    private static final By PRODUCTS_IN_GRID = By.cssSelector(".products-grid li.item");
+    private static final By SHOW_AS_LIST_BUTTON = By.cssSelector(".list");
+    private static final By PRODUCTS_IN_LIST = By.cssSelector("ol#products-list > li");
+
+    private static final By PRODUCT_NAME_ELEMENT_FROM_PLP = By.cssSelector(".product-name a");
     private static final By ADD_TO_WISHLIST_LINK = By.cssSelector(".link-wishlist");
     //ADD_TO_CART_BUTTON has the last one from popup - incorrect
     private static final By ADD_TO_CART_BUTTON = By.cssSelector("button[title='Add to Cart']");
@@ -139,11 +142,12 @@ public class ElectronicsPage extends AbstractPage {
         return this;
     }
 
-    public String addRandomItemInWishList() {
+    public String addRandomItemFromListViewToWishList() {
         List<WebElement> listOfElements = new WebDriverWait(getDriver(), 10)
-                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(PRODUCTS_IN_GRID));
-        WebElement randomProductItem = listOfElements.get((int) (Math.random() * (listOfElements.size() - 1)));
-        String productItemName = randomProductItem.findElement(PRODUCT_NAME_ELEMENT_FROM_PRODUCT_IN_LIST).getText();
+                .until(ExpectedConditions.presenceOfAllElementsLocatedBy(PRODUCTS_IN_LIST));
+        WebElement randomProductItem = getRandomElement(listOfElements);
+
+        String productItemName = randomProductItem.findElement(PRODUCT_NAME_ELEMENT_FROM_PLP).getText();
 
         scrollToTheElement(getDriver(), randomProductItem.findElement(ADD_TO_WISHLIST_LINK));
         try {
@@ -175,7 +179,7 @@ public class ElectronicsPage extends AbstractPage {
 
         listOfElements.removeIf(elem -> elem.findElements(ADD_TO_CART_BUTTON).size() == 0);
 
-        WebElement randomProductItem = listOfElements.get((int) (Math.random() * listOfElements.size()));
+        WebElement randomProductItem = getRandomElement(listOfElements);
 
         Product productAddedToTheCart = Product.builder()
                 .name(randomProductItem.findElement(PRODUCT_NAME_ELEMENT).getText())
