@@ -33,7 +33,7 @@ public class Driver {
     }
 
     private static void init() {
-        String browser = System.getProperty("browser", "chrome");
+        String browser = System.getProperty("browser", "firefox");
         switch (browser) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
